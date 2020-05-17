@@ -26,6 +26,7 @@ OBJS = \
 	trap.o\
 	uart.o\
 	vectors.o\
+	rand.o\
 	vm.o\
 
 all: xv6.img
