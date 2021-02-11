@@ -1,10 +1,23 @@
-FROM ubuntu:16.04
+FROM ubuntu:latest
+# tzinfo tries to interact with us unless we set this
+ENV DEBIAN_FRONTEND=noninteractive
 
-ENV TOOLPREFIX=""
+RUN set -x && \
+        apt-get update -y -qq && \
+        apt-get upgrade -y -qq --no-install-recommends && \
+        apt-get install -y -qq \
+        git \
+        nasm \
+        build-essential \
+        gdb \
+        tmux \
+        qemu \
+        qemu-system
 
-RUN apt update \
-  && apt install -y make gcc libc6-i386 \
-  && rm -rf /var/lib/apt/lists/*
+WORKDIR /home/root/xv6/
 
-WORKDIR /tmp/build
+COPY ./ ./
 
+RUN make
+
+CMD ["/bin/bash"]
